@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace KataValidBraces
 {
-    public class Kata
+    public class Brace
     {
+        public static bool validBraces(string input)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
