@@ -10,7 +10,11 @@ namespace KataValidBraces
     {
         public static bool validBraces(string input)
         {
-            throw new NotImplementedException();
+            if (input.StartsWith("[") && input.EndsWith("]"))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
