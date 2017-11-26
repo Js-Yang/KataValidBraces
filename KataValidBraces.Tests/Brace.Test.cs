@@ -5,15 +5,10 @@ namespace KataValidBraces.Tests
     [TestFixture]
     public class KataTest
     {
-        [Test]
-        public void validBraces_Input_Was_Valid_Square_Should_Return_True()
+        [TestCase("[]",true,TestName = "input is [], should return true")]
+        public void validBraces_Input_Was_Valid_Square_Should_Return_True(string input, bool expected)
         {
-            var input = "[]";
-            var result = Brace.validBraces(input);
-
-            var expected = true;
-
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expected, Brace.validBraces(input));
         }
     }
 }
