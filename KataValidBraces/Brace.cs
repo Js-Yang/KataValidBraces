@@ -9,13 +9,18 @@ namespace KataValidBraces
             var brackets = new List<string>() { "[]", "{}", "()" };
             foreach (var bracket in brackets)
             {
-                while (input.IndexOf(bracket[0]) != -1 && input.IndexOf(bracket[1]) != -1) 
+                while (Contains(bracket, input)) 
                 {
                     Erase(bracket, ref input);
                 } 
             }
 
             return input == string.Empty;
+        }
+
+        private static bool Contains(string bracket, string input)
+        {
+            return input.IndexOf(bracket[0]) != -1 && input.IndexOf(bracket[1]) != -1;
         }
 
         private static void Erase(string bracket, ref string input)
