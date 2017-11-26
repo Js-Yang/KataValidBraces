@@ -6,7 +6,7 @@ namespace KataValidBraces
     {
         public static bool validBraces(string input)
         {
-            var brackets = new List<string>() { "[]", "{}" };
+            var brackets = new List<string>() { "[]", "{}" , "()" };
             foreach (var bracket in brackets)
             {
                 if (input.IndexOf(bracket[0]) != -1 && input.IndexOf(bracket[1]) != -1)
