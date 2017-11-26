@@ -9,16 +9,19 @@ namespace KataValidBraces
             var brackets = new List<string>() { "[]", "{}" };
             foreach (var bracket in brackets)
             {
-                var start = bracket[0];
-                var end = bracket[1];
-                if (input.IndexOf(start) != -1 && input.IndexOf(end) != -1)
+                if (input.IndexOf(bracket[0]) != -1 && input.IndexOf(bracket[1]) != -1)
                 {
-                    input = input.Remove(input.IndexOf(start),1);
-                    input = input.Remove(input.IndexOf(end),1);
+                    RemoveCharAt(input.IndexOf(bracket[0]), ref input);
+                    RemoveCharAt(input.IndexOf(bracket[1]), ref input);
                 }
             }
 
             return input == string.Empty;
+        }
+
+        private static void RemoveCharAt(int index, ref string input)
+        {
+            input = input.Remove(index, 1);
         }
     }
 }
