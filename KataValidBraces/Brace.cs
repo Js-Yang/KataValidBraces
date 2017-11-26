@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace KataValidBraces
 {
@@ -10,11 +6,19 @@ namespace KataValidBraces
     {
         public static bool validBraces(string input)
         {
-            if (input.StartsWith("[") && input.EndsWith("]"))
+            var brackets = new List<string>() { "[]", "{}" };
+            foreach (var bracket in brackets)
             {
-                return true;
+                var start = bracket[0];
+                var end = bracket[1];
+                if (input.IndexOf(start) != -1 && input.IndexOf(end) != -1)
+                {
+                    input.Remove(input.IndexOf(start));
+                    input.Remove(input.IndexOf(end));
+                }
             }
-            return false;
+
+            return input != string.Empty;
         }
     }
 }
