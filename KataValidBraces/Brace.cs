@@ -1,43 +1,39 @@
 ﻿using System.Collections.Generic;
 
-namespace KataValidBraces
+public class Brace
 {
-    public class Brace
+    public static bool validBraces(string input)
     {
-        public static bool validBraces(string input)
+        var brackets = new List<string>() { "[]", "{}", "()" };
+        foreach (var bracket in brackets)
         {
-            var brackets = new List<string>() { "[]", "{}", "()" };
-            foreach (var bracket in brackets)
+            if (((input.IndexOf(bracket[1]) - input.IndexOf(bracket[0])) + 1) % 2 == 1)
             {
-                while (Contains(bracket, input)) 
-                {
-                    Erase(bracket, ref input);
-                } 
+                continue;
             }
-
-            return input == string.Empty;
-        }
-
-        private static bool Contains(string bracket, string input)
-        {
-            return input.IndexOf(bracket[0]) != -1 && input.IndexOf(bracket[1]) != -1;
-        }
-
-        private static void Erase(string bracket, ref string input)
-        {
-            foreach (var partOfBracket in bracket)
+            while (Contains(bracket, input))
             {
-                var index = input.IndexOf(partOfBracket);
-                if (index != -1)
-                {
-                    RemoveCharAt(index, ref input);
-                }
+                Erase(bracket, ref input);
             }
         }
 
-        private static void RemoveCharAt(int index, ref string input)
+        return input == string.Empty;
+    }
+
+    private static bool Contains(string bracket, string input)
+    {
+        return input.IndexOf(bracket[0]) != -1 && input.IndexOf(bracket[1]) != -1;
+    }
+
+    private static void Erase(string bracket, ref string input)
+    {
+        foreach (var partOfBracket in bracket)
         {
-            input = input.Remove(index, 1);
+            var index = input.IndexOf(partOfBracket);
+            if (index != -1)
+            {
+                input = input.Remove(index, 1);
+            }
         }
     }
 }
