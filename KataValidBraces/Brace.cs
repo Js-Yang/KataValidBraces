@@ -9,7 +9,7 @@ namespace KataValidBraces
             var brackets = new List<string>() { "[]", "{}", "()" };
             foreach (var bracket in brackets)
             {
-                while (input.IndexOf(bracket[0]) != -1) 
+                while (input.IndexOf(bracket[0]) != -1 && input.IndexOf(bracket[1]) != -1) 
                 {
                     Erase(bracket, ref input);
                 } 

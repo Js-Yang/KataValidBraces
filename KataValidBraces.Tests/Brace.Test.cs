@@ -15,6 +15,7 @@ namespace KataValidBraces.Tests
         }
 
         [TestCase("{]", false, TestName = "input is {], should return false")]
+        [TestCase("[{]", false, TestName = "input is {], should return false")]
         public void validBraces_Input_Was_Invalid_Should_Return_False(string input, bool expected)
         {
             Assert.AreEqual(expected, Brace.validBraces(input));
