@@ -13,12 +13,12 @@ namespace KataValidBraces
                 var end = bracket[1];
                 if (input.IndexOf(start) != -1 && input.IndexOf(end) != -1)
                 {
-                    input.Remove(input.IndexOf(start));
-                    input.Remove(input.IndexOf(end));
+                    input = input.Remove(input.IndexOf(start),1);
+                    input = input.Remove(input.IndexOf(end),1);
                 }
             }
 
-            return input != string.Empty;
+            return input == string.Empty;
         }
     }
 }
