@@ -11,12 +11,10 @@ public class Brace
 
         foreach (var bracket in brackets)
         {
-            if (!bracket.IsValid(input))
+            if (bracket.IsValid(input))
             {
-                continue;
+                bracket.EraseIn(ref input);
             }
-
-            bracket.Erase(ref input);
         }
 
         return input == string.Empty;
@@ -42,7 +40,7 @@ internal class Bracket
 
     public bool IsValid(string input)
     {
-        return IncludeIn(input) && (ValidDistinct(input) && ValidOrder(input));
+        return IncludeIn(input) && ValidDistinct(input) && ValidOrder(input);
     }
 
     private bool ValidDistinct(string input)
@@ -55,7 +53,7 @@ internal class Bracket
         return input.IndexOf(Close, input.LastIndexOf(Open)) != -1;
     }
 
-    public void Erase(ref string input)
+    public void EraseIn(ref string input)
     {
         while (IncludeIn(input))
         {
