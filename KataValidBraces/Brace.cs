@@ -6,13 +6,14 @@ public class Brace
 {
     public static bool validBraces(string input)
     {
+        Console.WriteLine(input);
         var brackets = new List<string>() { "[]", "{}", "()" }.Select(bracket => new Bracket(bracket)).ToList();
 
         foreach (var bracket in brackets)
         {
-            if (bracket.IsValid(input))
+            if (!bracket.IsValid(input))
             {
-                break;
+                continue;
             }
 
             bracket.Erase(ref input);
@@ -41,22 +42,17 @@ internal class Bracket
 
     public bool IsValid(string input)
     {
-        if (!IncludeIn(input))
-        {
-            return false;
-        }
-
-        return ValidDistinct(input) || ValidOrder(input);
+        return IncludeIn(input) && (ValidDistinct(input) && ValidOrder(input));
     }
 
     private bool ValidDistinct(string input)
     {
-        return (input.IndexOf(Close) - input.LastIndexOf(Open) + 1) % 2 == 1;
+        return (input.IndexOf(Close, input.LastIndexOf(Open)) - input.LastIndexOf(Open) + 1) % 2 == 0;
     }
 
     private bool ValidOrder(string input)
     {
-        return (input.IndexOf(Close, input.LastIndexOf(Open)) < input.LastIndexOf(Open));
+        return input.IndexOf(Close, input.LastIndexOf(Open)) != -1;
     }
 
     public void Erase(ref string input)
