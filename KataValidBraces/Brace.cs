@@ -24,7 +24,7 @@ public class Brace
 
     private static bool ValidOrder(string bracket, string input)
     {
-        return (input.LastIndexOf(bracket[1]) < input.IndexOf(bracket[0]));
+        return (input.IndexOf(bracket[1], input.LastIndexOf(bracket[0])) < input.LastIndexOf(bracket[0]));
     }
 
     private static bool ValidDistinct(string bracket, string input)
