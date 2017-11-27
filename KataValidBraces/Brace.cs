@@ -6,14 +6,13 @@ public class Brace
 {
     public static bool validBraces(string input)
     {
-        Console.WriteLine(input);
         var brackets = new List<string>() { "[]", "{}", "()" }.Select(bracket => new Bracket(bracket)).ToList();
-
         foreach (var bracket in brackets)
         {
-            if (bracket.IsValid(input))
+            bracket.SetInput(input);
+            if (bracket.IsValid())
             {
-                bracket.EraseIn(ref input);
+                input = bracket.RemoveInInput();
             }
         }
 
@@ -27,38 +26,50 @@ internal class Bracket
 
     private char Close;
 
+    private string input;
+
+    private int PositionOfOpen => input.LastIndexOf(Open);
+
+    private int PositionOfClose => input.IndexOf(Close);
+
+    public void SetInput(string input)
+    {
+        this.input = input;
+    }
+
     public Bracket(string bracket)
     {
         Open = bracket[0];
         Close = bracket[1];
     }
 
-    public bool IncludeIn(string input)
+    public bool IsFindIn(string input)
     {
-        return input.LastIndexOf(Open) != -1 && input.IndexOf(Close) != -1;
+        return PositionOfOpen != -1 && PositionOfClose != -1;
     }
 
-    public bool IsValid(string input)
+    public bool IsValid()
     {
-        return IncludeIn(input) && ValidDistinct(input) && ValidOrder(input);
+        return IsFindIn(input) && ValidDistinct() && ValidOrder();
     }
 
-    private bool ValidDistinct(string input)
+    private bool ValidDistinct()
     {
-        return (input.IndexOf(Close, input.LastIndexOf(Open)) - input.LastIndexOf(Open) + 1) % 2 == 0;
+        return (input.IndexOf(Close, PositionOfOpen) - PositionOfOpen + 1) % 2 == 0;
     }
 
-    private bool ValidOrder(string input)
+    private bool ValidOrder()
     {
-        return input.IndexOf(Close, input.LastIndexOf(Open)) != -1;
+        return input.IndexOf(Close, PositionOfOpen) != -1;
     }
 
-    public void EraseIn(ref string input)
+    public string RemoveInInput()
     {
-        while (IncludeIn(input))
+        while (IsFindIn(input))
         {
-            input = input.Remove(input.LastIndexOf(Open), 1);
-            input = input.Remove(input.IndexOf(Close), 1);
+            input = input.Remove(PositionOfOpen, 1);
+            input = input.Remove(PositionOfClose, 1);
         }
+        return input;
     }
 }
