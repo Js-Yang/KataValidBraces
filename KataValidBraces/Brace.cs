@@ -15,18 +15,10 @@ public class Brace
                 break;
             }
 
-            EraseBy(bracket, ref input);
+            bracket.Erase(ref input);
         }
 
         return input == string.Empty;
-    }
-
-    private static void EraseBy(Bracket bracket, ref string input)
-    {
-        while (bracket.Contains(input))
-        {
-            bracket.Erase(ref input);
-        }
     }
 }
 
@@ -41,12 +33,6 @@ internal class Bracket
     public Bracket(string bracket)
     {
         this.bracket = bracket;
-    }
-
-    public void Erase(ref string input)
-    {
-        input = input.Remove(input.LastIndexOf(Open), 1);
-        input = input.Remove(input.IndexOf(Close), 1);
     }
 
     public bool Contains(string input)
@@ -74,4 +60,12 @@ internal class Bracket
         return (input.IndexOf(Close, input.LastIndexOf(Open)) < input.LastIndexOf(Open));
     }
 
+    public void Erase(ref string input)
+    {
+        while (Contains(input))
+        {
+            input = input.Remove(input.LastIndexOf(Open), 1);
+            input = input.Remove(input.IndexOf(Close), 1);
+        }
+    }
 }
