@@ -24,6 +24,10 @@ public class Brace
 
     private static bool ValidOrder(string bracket, string input)
     {
+        if (input.LastIndexOf(bracket[0]) == -1)
+        {
+            return false;
+        }
         return (input.IndexOf(bracket[1], input.LastIndexOf(bracket[0])) < input.LastIndexOf(bracket[0]));
     }
 
