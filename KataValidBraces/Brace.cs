@@ -6,64 +6,33 @@ public class Brace
 {
     public static bool validBraces(string input)
     {
+        Console.WriteLine(input);
         var brackets = new List<string>() { "[]", "{}", "()" }.Select(bracket => new Bracket(bracket)).ToList();
-        var result = input;
-        foreach (var bracket in brackets)
+        var openBrackets = new Stack<char>();
+
+        foreach (var charactor in input.ToArray())
         {
-            var paragraph = new Paragraph(result);
-            if (paragraph.IsValid(bracket))
+            if (brackets.Any(x => x.Open == charactor))
             {
-                result = paragraph.Remove(bracket);
+                openBrackets.Push(charactor);
+            }
+            else if (!openBrackets.Any() && brackets.Any(bracket => bracket.Close == charactor))
+            {
+                return false;
+            }
+            else if (openBrackets.Any() && brackets.First(bracket => bracket.Close == charactor).Open != openBrackets.Pop())
+            {
+                return false;
             }
         }
 
-        return result == string.Empty;
-    }
-}
-
-internal class Paragraph
-{
-    private string input;
-
-    public Paragraph(string input)
-    {
-        this.input = input;
-    }
-
-    public string Remove(Bracket bracket)
-    {
-        while (Find(bracket))
-        {
-            input = input.Remove(bracket.PositionOfOpen(input), 1);
-            input = input.Remove(bracket.PositionOfClose(input), 1);
-        }
-        return input;
-    }
-    
-    public bool IsValid(Bracket bracket)
-    {
-        return Find(bracket) && IsValidDistinct(bracket) && IsValidOrder(bracket);
-    }
-
-    public bool Find(Bracket bracket)
-    {
-        return bracket.PositionOfOpen(input) != -1 && bracket.PositionOfClose(input) != -1;
-    }
-
-    private bool IsValidDistinct(Bracket bracket)
-    {
-        return (input.IndexOf(bracket.Close, bracket.PositionOfOpen(input)) - bracket.PositionOfOpen(input)) % 2 == 1;
-    }
-
-    private bool IsValidOrder(Bracket bracket)
-    {
-        return input.IndexOf(bracket.Close, bracket.PositionOfOpen(input)) != -1;
+        return !openBrackets.Any();
     }
 }
 
 internal class Bracket
 {
-    private char Open;
+    public char Open;
 
     public char Close;
 
@@ -71,15 +40,5 @@ internal class Bracket
     {
         Open = bracket[0];
         Close = bracket[1];
-    }
-
-    public int PositionOfOpen(string input)
-    {
-        return input.LastIndexOf(Open);
-    }
-
-    public int PositionOfClose(string input)
-    {
-        return input.IndexOf(Close);
     }
 }
