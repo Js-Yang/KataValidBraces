@@ -10,6 +10,7 @@ namespace KataValidBraces.Tests
         [TestCase("{[()]}", TestName = "input is {[()]}, should return true")]
         [TestCase("{[([])]}", TestName = "input is {[([])]}, should return true")]
         [TestCase("(({{[[]]}}))", TestName = "input is (({{[[]]}})), should return true")]
+        [TestCase("{}({})[]", TestName = "input is {}({})[], should return true")]
         public void validBraces_Input_Was_Valid_Should_Return_True(string input)
         {
             Assert.AreEqual(true, Brace.validBraces(input));

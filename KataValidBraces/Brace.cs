@@ -29,7 +29,7 @@ public class Brace
 
     private static bool ValidDistinct(string bracket, string input)
     {
-        return (input.LastIndexOf(bracket[1]) - input.IndexOf(bracket[0]) + 1) % 2 == 1;
+        return (input.IndexOf(bracket[1]) - input.LastIndexOf(bracket[0]) + 1) % 2 == 1;
     }
 
     private static bool Contains(string bracket, string input)
