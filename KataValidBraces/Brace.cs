@@ -24,25 +24,24 @@ public class Brace
 
 internal class Bracket
 {
-    private string bracket;
+    private char Open;
 
-    public char Open => bracket[0];
-
-    public char Close => bracket[1];
+    private char Close;
 
     public Bracket(string bracket)
     {
-        this.bracket = bracket;
+        Open = bracket[0];
+        Close = bracket[1];
     }
 
-    public bool Contains(string input)
+    public bool IncludeIn(string input)
     {
         return input.LastIndexOf(Open) != -1 && input.IndexOf(Close) != -1;
     }
 
     public bool IsValid(string input)
     {
-        if (!Contains(input))
+        if (!IncludeIn(input))
         {
             return false;
         }
@@ -50,19 +49,19 @@ internal class Bracket
         return ValidDistinct(input) || ValidOrder(input);
     }
 
-    public bool ValidDistinct(string input)
+    private bool ValidDistinct(string input)
     {
         return (input.IndexOf(Close) - input.LastIndexOf(Open) + 1) % 2 == 1;
     }
 
-    public bool ValidOrder(string input)
+    private bool ValidOrder(string input)
     {
         return (input.IndexOf(Close, input.LastIndexOf(Open)) < input.LastIndexOf(Open));
     }
 
     public void Erase(ref string input)
     {
-        while (Contains(input))
+        while (IncludeIn(input))
         {
             input = input.Remove(input.LastIndexOf(Open), 1);
             input = input.Remove(input.IndexOf(Close), 1);
