@@ -7,16 +7,57 @@ public class Brace
     public static bool validBraces(string input)
     {
         var brackets = new List<string>() { "[]", "{}", "()" }.Select(bracket => new Bracket(bracket)).ToList();
+        var result = input;
         foreach (var bracket in brackets)
         {
-            bracket.SetInput(input);
-            if (bracket.IsValid())
+            var paragraph = new Paragraph(result);
+            if (paragraph.IsValid(bracket))
             {
-                input = bracket.RemoveInInput();
+                result = paragraph.Remove(bracket);
             }
         }
 
-        return input == string.Empty;
+        return result == string.Empty;
+    }
+}
+
+internal class Paragraph
+{
+    private string input;
+
+    public Paragraph(string input)
+    {
+        this.input = input;
+    }
+
+    public string Remove(Bracket bracket)
+    {
+        while (Find(bracket))
+        {
+            input = input.Remove(bracket.PositionOfOpen(input), 1);
+            input = input.Remove(bracket.PositionOfClose(input), 1);
+        }
+        return input;
+    }
+    
+    public bool IsValid(Bracket bracket)
+    {
+        return Find(bracket) && IsValidDistinct(bracket) && IsValidOrder(bracket);
+    }
+
+    public bool Find(Bracket bracket)
+    {
+        return bracket.PositionOfOpen(input) != -1 && bracket.PositionOfClose(input) != -1;
+    }
+
+    private bool IsValidDistinct(Bracket bracket)
+    {
+        return (input.IndexOf(bracket.Close, bracket.PositionOfOpen(input)) - bracket.PositionOfOpen(input)) % 2 == 1;
+    }
+
+    private bool IsValidOrder(Bracket bracket)
+    {
+        return input.IndexOf(bracket.Close, bracket.PositionOfOpen(input)) != -1;
     }
 }
 
@@ -24,18 +65,7 @@ internal class Bracket
 {
     private char Open;
 
-    private char Close;
-
-    private string input;
-
-    private int PositionOfOpen => input.LastIndexOf(Open);
-
-    private int PositionOfClose => input.IndexOf(Close);
-
-    public void SetInput(string input)
-    {
-        this.input = input;
-    }
+    public char Close;
 
     public Bracket(string bracket)
     {
@@ -43,33 +73,13 @@ internal class Bracket
         Close = bracket[1];
     }
 
-    public bool IsFindIn(string input)
+    public int PositionOfOpen(string input)
     {
-        return PositionOfOpen != -1 && PositionOfClose != -1;
+        return input.LastIndexOf(Open);
     }
 
-    public bool IsValid()
+    public int PositionOfClose(string input)
     {
-        return IsFindIn(input) && ValidDistinct() && ValidOrder();
-    }
-
-    private bool ValidDistinct()
-    {
-        return (input.IndexOf(Close, PositionOfOpen) - PositionOfOpen + 1) % 2 == 0;
-    }
-
-    private bool ValidOrder()
-    {
-        return input.IndexOf(Close, PositionOfOpen) != -1;
-    }
-
-    public string RemoveInInput()
-    {
-        while (IsFindIn(input))
-        {
-            input = input.Remove(PositionOfOpen, 1);
-            input = input.Remove(PositionOfClose, 1);
-        }
-        return input;
+        return input.IndexOf(Close);
     }
 }
