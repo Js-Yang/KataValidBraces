@@ -38,7 +38,7 @@ public class Brace
 
     private static bool Contains(string bracket, string input)
     {
-        return input.IndexOf(bracket[0]) != -1 && input.LastIndexOf(bracket[1]) != -1;
+        return input.LastIndexOf(bracket[0]) != -1 && input.IndexOf(bracket[1]) != -1;
     }
 
     private static void Erase(string bracket, ref string input)
@@ -47,8 +47,8 @@ public class Brace
         var end = bracket[1];
         if (input.IndexOf(start) != -1)
         {
-            input = input.Remove(input.IndexOf(start), 1);
-            input = input.Remove(input.LastIndexOf(end), 1);
+            input = input.Remove(input.LastIndexOf(start), 1);
+            input = input.Remove(input.IndexOf(end), 1);
         }
     }
 }
