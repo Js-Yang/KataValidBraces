@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class Brace
 {
     public static bool validBraces(string input)
     {
+        Console.WriteLine(input);
         var brackets = new List<string>() { "[]", "{}", "()" };
         foreach (var bracket in brackets)
         {
-            if ((input.IndexOf(bracket[1]) - input.LastIndexOf(bracket[0]) + 1) % 2 == 1)
+            if ((input.LastIndexOf(bracket[1]) - input.IndexOf(bracket[0]) + 1) % 2 == 1 || (input.LastIndexOf(bracket[1]) < input.IndexOf(bracket[0])))
             {
                 continue;
             }
