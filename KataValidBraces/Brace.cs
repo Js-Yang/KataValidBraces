@@ -16,17 +16,26 @@ public class Brace
             {
                 openBrackets.Push(charactor);
             }
-            else if (!openBrackets.Any() && brackets.Any(bracket => bracket.Close == charactor))
+            else
             {
-                return false;
-            }
-            else if (openBrackets.Any() && brackets.First(bracket => bracket.Close == charactor).Open != openBrackets.Pop())
-            {
-                return false;
+                if (!IsMatchedBetween(charactor, brackets, openBrackets))
+                {
+                    return false;
+                }
             }
         }
 
         return !openBrackets.Any();
+    }
+
+    private static bool IsMatchedBetween(char charactor, List<Bracket> brackets, Stack<char> openBrackets)
+    {
+        if (!openBrackets.Any() && brackets.Any(bracket => bracket.Close == charactor))
+        {
+            return false;
+        }
+
+        return brackets.First(bracket => bracket.Close == charactor).Open == openBrackets.Pop();
     }
 }
 
