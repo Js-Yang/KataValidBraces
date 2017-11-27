@@ -16,12 +16,9 @@ public class Brace
             {
                 openBrackets.Push(charactor);
             }
-            else
+            else if (!IsMatchedBetween(charactor, brackets, openBrackets))
             {
-                if (!IsMatchedBetween(charactor, brackets, openBrackets))
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
