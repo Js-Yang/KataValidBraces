@@ -9,7 +9,7 @@ public class Brace
         var brackets = new List<string>() { "[]", "{}", "()" };
         foreach (var bracket in brackets)
         {
-            if ((input.LastIndexOf(bracket[1]) - input.IndexOf(bracket[0]) + 1) % 2 == 1 || (input.LastIndexOf(bracket[1]) < input.IndexOf(bracket[0])))
+            if (ValidDistinct(bracket, input) || ValidOrder(bracket, input))
             {
                 continue;
             }
@@ -20,6 +20,16 @@ public class Brace
         }
 
         return input == string.Empty;
+    }
+
+    private static bool ValidOrder(string bracket, string input)
+    {
+        return (input.LastIndexOf(bracket[1]) < input.IndexOf(bracket[0]));
+    }
+
+    private static bool ValidDistinct(string bracket, string input)
+    {
+        return (input.LastIndexOf(bracket[1]) - input.IndexOf(bracket[0]) + 1) % 2 == 1;
     }
 
     private static bool Contains(string bracket, string input)
